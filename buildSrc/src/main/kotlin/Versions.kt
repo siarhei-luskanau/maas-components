@@ -7,8 +7,8 @@ object Versions {
     val kotlin: String = versions.getProperty("version.kotlin")
     val androidGradlePlugin: String = versions.getProperty("version.androidGradlePlugin")
 
-    const val androidBuildToolsVersion = "30.0.3"
-    const val androidCompileSdk = 30
+    const val androidBuildToolsVersion = "31.0.0"
+    const val androidCompileSdk = 31
     const val androidTargetSdk = 30
     const val androidMinSdk = 23
 

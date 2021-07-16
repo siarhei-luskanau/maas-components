@@ -12,11 +12,6 @@ plugins {
 kotlin {
     android {
         publishAllLibraryVariants()
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
     }
     ios {
         binaries {
@@ -77,9 +72,11 @@ kotlin {
 
 android {
     compileSdk = Versions.androidCompileSdk
+    buildToolsVersion = Versions.androidBuildToolsVersion
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = Versions.androidMinSdk
+        targetSdk = Versions.androidTargetSdk
         consumerProguardFiles("consumer-rules.pro")
     }
     buildTypes {
