@@ -25,6 +25,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:19.0.0")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
     implementation("androidx.core:core-ktx:${Versions.core}")
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("com.google.android.material:material:${Versions.material}")
