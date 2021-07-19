@@ -20,6 +20,7 @@ android {
 dependencies {
     implementation(project(":common:core"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
     implementation("androidx.core:core-ktx:${Versions.core}")
     implementation("androidx.compose.foundation:foundation-layout:${Versions.compose}")
     implementation("androidx.compose.runtime:runtime:${Versions.compose}")
