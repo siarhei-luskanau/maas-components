@@ -9,39 +9,9 @@ plugins {
     id("maven-meta")
 }
 
-android {
-    compileSdkVersion(Versions.androidCompileSdk)
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdkVersion(Versions.androidMinSdk)
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-    // workaround for https://youtrack.jetbrains.com/issue/KT-43944
-    // the android { } block had to be moved before kotlin { } due to this, too
-    configurations {
-        create("androidTestApi")
-        create("androidTestDebugApi")
-        create("androidTestReleaseApi")
-        create("testApi")
-        create("testDebugApi")
-        create("testReleaseApi")
-    }
-}
-
 kotlin {
     android {
         publishAllLibraryVariants()
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-                useIR = true
-            }
-        }
     }
     ios {
         binaries {
@@ -52,8 +22,10 @@ kotlin {
     }
     sourceSets {
         all {
-            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
-            languageSettings.useExperimentalAnnotation("kotlin.ExperimentalUnsignedTypes")
+            with(languageSettings) {
+                useExperimentalAnnotation("kotlin.RequiresOptIn")
+                useExperimentalAnnotation("kotlin.ExperimentalUnsignedTypes")
+            }
         }
         val commonMain by getting {
             dependencies {
@@ -80,7 +52,10 @@ kotlin {
                 implementation("androidx.compose.ui:ui:${Versions.compose}")
             }
         }
+        val androidAndroidTestRelease by getting
         val androidTest by getting {
+            // https://discuss.kotlinlang.org/t/disabling-androidandroidtestrelease-source-set-in-gradle-kotlin-dsl-script/21448
+            dependsOn(androidAndroidTestRelease)
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.1")
@@ -95,8 +70,23 @@ kotlin {
     }
 }
 
+android {
+    compileSdk = Versions.androidCompileSdk
+    buildToolsVersion = Versions.androidBuildToolsVersion
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    defaultConfig {
+        minSdk = Versions.androidMinSdk
+        targetSdk = Versions.androidTargetSdk
+        consumerProguardFiles("consumer-rules.pro")
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+}
+
 ktlint {
-    disabledRules.set(setOf("no-wildcard-imports"))
     filter {
         exclude("**/com/trafi/core/model/**")
         exclude("**/kotlinx/serialization/internal/**")
